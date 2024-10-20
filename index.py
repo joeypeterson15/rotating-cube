@@ -6,7 +6,7 @@ def main():
     yLength = 400
     xOrigin = xLength / 2
     yOrigin = yLength / 2
-    win = GraphWin("Cube", 400, 400)
+    win = GraphWin("Cube", 400, 400, autoflush=False)
     vertices = [[xOrigin + 20, yOrigin - 20], [xOrigin - 20, yOrigin - 20], [xOrigin - 20, yOrigin + 20], [xOrigin + 20, yOrigin + 20]]
     edges = [(0,1), (1,2), (2,3), (0,3)] 
 
@@ -18,6 +18,18 @@ def main():
 
     def rotateVertices(angle):
         for i in range(len(vertices)):
+            # # SAME AS MATRIX VERSION BELOW
+            # lastx = vertices[i][0] - xOrigin
+            # lasty = vertices[i][1] - yOrigin
+
+            # # Apply the rotation transformation
+            # rotatedX = lastx * numpy.cos(angle) - lasty * numpy.sin(angle)
+            # rotatedY = lastx * numpy.sin(angle) + lasty * numpy.cos(angle)
+
+            # # Update the vertex positions, translating back relative to the origin
+            # vertices[i][0] = rotatedX + xOrigin
+            # vertices[i][1] = rotatedY + yOrigin
+
             lastx = vertices[i][0]
             lasty = vertices[i][1]
             v = [lastx, lasty, 1]
@@ -42,19 +54,16 @@ def main():
             
             FromOriginv = numpy.dot(v, translateFromOriginM)
             rotateV = numpy.dot(FromOriginv, rotationMatrix)
-            toOriginV = numpy.dot(rotateV, translateToOriginM)
+            finalV = numpy.dot(rotateV, translateToOriginM)
 
-            vertices[i][0] = toOriginV[0]
-            vertices[i][1] = toOriginV[1]
-
-        
+            vertices[i][0] = finalV[0]
+            vertices[i][1] = finalV[1]
 
     # angle = numpy.pi / 3
     # rotateVertices(angle)
     angle = 0
     while True:
         angle += numpy.pi / 6
-        # undraw lines
         for line in lines:
             line.undraw()
         lines = []
@@ -67,5 +76,5 @@ def main():
         if win.checkMouse():
             break
         win.update()
-        time.sleep(0.8)
+        time.sleep(0.2)
 main()
