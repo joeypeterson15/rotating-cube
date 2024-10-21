@@ -18,6 +18,7 @@ def main():
 
     def rotateVertices(angle):
         for i in range(len(vertices)):
+            # Get the current vertex coordinates relative to the origin
             # lastx = vertices[i][0] - xOrigin
             # lasty = vertices[i][1] - yOrigin
 
