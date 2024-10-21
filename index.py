@@ -52,17 +52,18 @@ def main():
                 [xCenter, yCenter, 1]
             ]
             
-            FromOriginv = numpy.dot(v, translateToOriginM)
-            rotateV = numpy.dot(FromOriginv, rotationM)
-            finalV = numpy.dot(rotateV, translateToCenterM)
+            originV = numpy.dot(v, translateToOriginM) #translate square to the top left window origin
+            rotateV = numpy.dot(originV, rotationM) #apply rotation to square 
+            finalV = numpy.dot(rotateV, translateToCenterM) #translate back to center of window
 
             vertices[i][0] = finalV[0]
             vertices[i][1] = finalV[1]
 
-    angle = 0
+    angle_offset = numpy.pi / 35
+    angle = angle_offset
     running = True
     while running:
-        angle += numpy.pi / 40
+        # angle += angle_offset
         for line in lines:
             line.undraw()
         lines = []
@@ -74,6 +75,6 @@ def main():
 
         if win.checkMouse():
             break
-        time.sleep(0.9)
+        time.sleep(0.05)
         # win.update()
 main()
